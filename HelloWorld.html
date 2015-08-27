@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>HelloWorld</title>
     <script src="angular.js"></script>
 </head>
 <body>
-<div ng-app="myApp" ng-controller="myController" ng-init="firstName='瞎子'">
+<div  ng-controller="myController" ng-init="firstName='瞎子'">
     <p>Name : <input type="text" ng-model="name"></p>
 
     <h1>Hello {{name}}</h1>
@@ -29,12 +29,12 @@
 
     <div ng-repeat="item in items">
         <span>{{item.title}}</span>
-        <input  ng-model="item.number">
+        <input ng-model="item.number">
         <span>{{item.price | currency}}</span>
         <span>{{item.price * item.number | currency}}</span>
         <button ng-click="remove($index)">remove</button>
     </div>
-<hr>
+    <hr>
     <input type="checkbox" ng-model="cktest">
     <span>{{cktest}}</span>
     <hr>
@@ -47,13 +47,29 @@
     <input ng-model="watchtest">
     watchVal = {{wval}}
     <hr>
+    <h1>repeat insert</h1>
+    <ul>
+        <li ng-repeat="item in items">
+            <span>{{item.title}}++++++++{{$index}}</span>
+        </li>
+    </ul>
+<button ng-click="insert()">insert</button>
+    <hr>
+    <h1>showtest</h1>
+    <div  ng-show="isshow" style="background-color: aquamarine;width: 50px;height: 50px" ></div>
+    <button ng-click="toggleStaus()">toggle</button>
+</div>
 
+<div ng-controller="MyController2">
+
+    {{hahaha}}
 </div>
 
 <script>
 
     var app = angular.module("myApp", []);
     app.controller("myController", function ($scope) {
+        this.isshow = false;
         $scope.lastName = "vzxccccccc";
         $scope.gg = {text: "hello"};
 
@@ -61,15 +77,24 @@
             {title: "ck", price: 43.4, number: 6},
             {title: "ps", price: 23.1, number: 3}];
         $scope.remove = function (index) {
-            $scope.items.splice(index,1);
+            $scope.items.splice(index, 1);
         }
-        $scope.chnagefun=function(){
+        $scope.chnagefun = function () {
             $scope.cval = $scope.changetest * 10;
         }
 
-        $scope.$watch('watchtest',function(){
+        $scope.$watch('watchtest', function () {
             $scope.wval = $scope.watchtest * 10;
         });
+        $scope.insert = function(){
+            this.items.push({title: "pasds", price: 121, number: 4});
+        }
+        $scope.toggleStaus =function(){
+            this.isshow = !this.isshow;
+        }
+    });
+    app.controller("MyController2",function($scope){
+        $scope.hahaha = "rjukievgfnhb";
     });
 
 </script>
