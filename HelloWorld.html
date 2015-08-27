@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HelloWorld</title>
+    <script src="angular.js"></script>
+</head>
+<body>
+<div ng-app="myApp" ng-controller="myController" ng-init="firstName='瞎子'">
+    <p>Name : <input type="text" ng-model="name"></p>
+
+    <h1>Hello {{name}}</h1>
+
+    <h1 ng-bind="name">two </h1>
+    <span ng-bind="firstName"></span>
+    <br>
+    <span>{{123-32}}</span>
+    <br>
+    {{lastName}}
+    <br>
+
+    <p>{{gg.text}},world</p>
+
+    <br>
+
+    <h1>for in test</h1>
+
+    <h1>you shopping car</h1>
+
+    <div ng-repeat="item in items">
+        <span>{{item.title}}</span>
+        <input  ng-model="item.number">
+        <span>{{item.price | currency}}</span>
+        <span>{{item.price * item.number | currency}}</span>
+        <button ng-click="remove($index)">remove</button>
+    </div>
+<hr>
+    <input type="checkbox" ng-model="cktest">
+    <span>{{cktest}}</span>
+    <hr>
+    ng-change test<br>
+    <input ng-model="changetest" ng-change="chnagefun()">
+    <br>
+    changeVal = {{cval}}
+    <br>
+    ng-watch<br>
+    <input ng-model="watchtest">
+    watchVal = {{wval}}
+    <hr>
+
+</div>
+
+<script>
+
+    var app = angular.module("myApp", []);
+    app.controller("myController", function ($scope) {
+        $scope.lastName = "vzxccccccc";
+        $scope.gg = {text: "hello"};
+
+        $scope.items = [{title: "dog", price: 3.44, number: 4},
+            {title: "ck", price: 43.4, number: 6},
+            {title: "ps", price: 23.1, number: 3}];
+        $scope.remove = function (index) {
+            $scope.items.splice(index,1);
+        }
+        $scope.chnagefun=function(){
+            $scope.cval = $scope.changetest * 10;
+        }
+
+        $scope.$watch('watchtest',function(){
+            $scope.wval = $scope.watchtest * 10;
+        });
+    });
+
+</script>
+</body>
+</html>
