@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="angular.js"></script>
+    <script type="text/ng-template"  id="temp.html">
+        <select>
+            <option value="23">123</option>
+            <option value="312">123</option>
+            <option value="321">312</option>
+            <option value="231">23</option>
+        </select>
+</script>
+</head>
+<body>
+<div ng-controller="c1">
+    <hello></hello>
+    <div hello2>qqqqqq</div>
+</div>
+<script>
+    var app = angular.module("myApp",[]);
+    app.directive("hello",function(){
+       return{
+           restrict:"E",
+           templateUrl:"temp.html",
+           replace:true
+       }
+    });
+
+    app.directive("hello2",function(){
+       return{
+           transclude:true,
+           template:"<div><span ng-transclude></span>hi there </div>"
+       }
+    });
+    app.controller("c1",function($scope){
+
+    });
+
+</script>
+</body>
+</html>
