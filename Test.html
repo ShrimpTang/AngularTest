@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="my">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="angular.js"></script>
+</head>
+<body>
+<div ng-controller="c">
+    {{hhaa}}
+    <h1>Watch</h1>
+
+    <ul>
+        <li ng-repeat="item in items">
+            {{item.name}}
+            <input ng-model="item.number">
+            {{item.price|currency}}
+            {{item.price*item.number}}
+        </li>
+    </ul>
+    <p>Totle {{bill.total}}</p>
+
+    <p>discount {{bill.discount}}</p>
+
+    <p>subTotle {{bill.subtotal}}</p>
+    <hr>
+</div>
+<div ng-controller="fact">
+    <h1>factory</h1>
+
+    <div>
+        <ul>
+            <li ng-repeat="item in items">
+                {{item.name}}
+            </li>
+        </ul>
+    </div>
+</div>
+<hr/>
+<h1>Filter</h1>
+<div ng-controller="filterrr">
+    {{filtertest |upCase:'是在下输了' }}
+</div>
+</body>
+<script>
+    var app = angular.module("my", []);
+    app.controller("c", function ($scope) {
+        $scope.bill = {}
+        $scope.items = [{name: "qqq", price: 123.3, number: 3},
+            {name: "ccc", price: 54, number: 1},
+            {name: "ttt", price: 12.3, number: 5}];
+        $scope.hhaa = "fasdasdasdasdasdasdasdasdasd";
+
+        $scope.$watch("items", function () {
+            var t = 0;
+            for (var i = 0; i < $scope.items.length; i++) {
+                t += $scope.items[i].price * $scope.items[i].number;
+            }
+            $scope.bill.total = t;
+            $scope.bill.discount = t > 100 ? 10 : 0;
+            $scope.bill.subtotal = t - $scope.bill.discount;
+        }, true);
+    });
+    app.factory("Items", function () {
+        var items = {};
+        items.query = function () {
+            return [{name: "速度"}, {name: "士大夫"}, {name: "fvi"}];
+        }
+        return items;
+    });
+    app.controller("fact", function ($scope, Items) {
+        $scope.items = Items.query();
+    })
+
+    app.filter("upCase", function () {
+        var u = function (input,qq) {
+            return input.toUpperCase()+qq;
+        }
+        return u;
+    });
+
+    app.controller("filterrr",function($scope){
+        $scope.filtertest = "rgfjkehu3EFASW32wdr";
+    });
+
+
+</script>
+</html>
