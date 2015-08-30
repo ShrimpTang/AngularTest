@@ -44,7 +44,7 @@
 </div>
 
 <!--<div ng-controller="directive">-->
-    <!--<span ng>qqqq</span>-->
+<!--<span ng>qqqq</span>-->
 
 <!--</div>-->
 
@@ -60,13 +60,31 @@
     <br/>
     <!--<input type="number" required ng-maxlength="3" ng-min="1" ng-model="user.age"/>-->
     <br/>
-    <button  ng-disabled="!inputForm.$valid" ng-click="adduser()">afffffffff</button>
+    <button ng-disabled="!inputForm.$valid" ng-click="adduser()">afffffffff</button>
 
 </form>
+<hr>
+<h1>service</h1>
 
+<div ng-controller="ser">
+    {{msg}}
+    {{qqc}}
+</div>
 </body>
 <script>
     var app = angular.module("my", []);
+    app.factory("Data", function () {
+        return {
+            msg: 'factoryTest'
+        }
+    });
+    app.service("SData",function(){
+       this.qq = '4039303';
+    });
+    app.controller("ser", function ($scope, Data,SData) {
+        $scope.msg = Data.msg;
+        $scope.qqc = SData.qq;
+    });
     app.controller("c", function ($scope) {
         $scope.bill = {}
         $scope.items = [{name: "qqq", price: 123.3, number: 3},
@@ -105,14 +123,12 @@
     app.controller("filterrr", function ($scope) {
         $scope.filtertest = "rgfjkehu3EFASW32wdr";
     });
-    app.controller("formC",function($scope){
+    app.controller("formC", function ($scope) {
         //$scope.user={}
-        $scope.adduser = function(){
-            console.info(this.user.first+"@@"+this.user.last);
+        $scope.adduser = function () {
+            console.info(this.user.first + "@@" + this.user.last);
         }
     });
-
-
 
 
 </script>
