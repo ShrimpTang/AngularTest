@@ -66,12 +66,12 @@
         <input type="text" ng-model="name2" name="name" ng-minlength="2" ng-maxlength="4"
                required/>
 
-        <div class="ng-invalid " ng-message="inputFrom2.name.$error" ng-messages-multiple>
-            <small class="error" ng-message="required">必填！</small>
+        <div class="ng-invalid " ng-messages="inputFrom2.name.$error" ng-messages-multiple>
+            <small class="error" ng-messages="required">必填！</small>
 
-            <small class="error" ng-message="minlength">最小2为</small>
+            <small class="error" ng-messages="minlength">最小2为</small>
 
-            <small class="error" ng-message="maxlength" >最大4为</small>
+            <small class="error" ng-messages="maxlength" >最大4为</small>
 
         </div>
         <button type="submit">sub</button>
