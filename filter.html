@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="angular.js"></script>
+</head>
+<body>
+{{ [{ 'name': 'Ari', 'status': 'awake' },{ 'name': 'Q', 'status': 'sleeping' },{ 'name': 'Nate', 'status': 'awake' }] |
+orderBy:'name' }}
+<script>
+    angular.module("myApp",[]);
+</script>
+</body>
+</html>
