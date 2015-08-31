@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../angular.js"></script>
+    <script src="../../angular-messages.js"></script>
+    <style>
+        .error {
+            background-color: #00ff1d;
+        }
+
+        input.ng-valid {
+            border: 1px solid green;
+        }
+    </style>
+</head>
+<body>
+<div ng-controller="myController">
+    {{['afds','rhbne','erg','bhre','hsdebr' ]|filter:'e'}}
+    <br/>
+    {{[
+    {
+    name:'vvvv',
+    age:'12',
+    city:'wuhan'
+    },{
+    name:'sdf',
+    age:'54',
+    city:'shanghai'
+    },{
+    name:'byv',
+    age:'24',
+    city:'niu'
+    }
+    ] | filter:{name:'vvvv'} }}
+    <br/>
+
+    {{'nihao nihao nihao'|limitTo:7}}
+
+    <br/>
+
+    {{ ['12','4132','4'] |orderBy }}
+
+    <br/>
+
+    {{'wye' | upheard}}
+
+    <br/>
+
+    <form name="inputForm" novalidate >
+        <input type="text" ng-model="name" name="name" ng-minlength="2" ng-maxlength="4"
+               required/>
+
+        <div class="ng-invalid " ng-show="inputForm.name.$dirty && inputForm.name.$invalid">
+            <small class="error" ng-show="inputForm.name.$error.required">必填！</small>
+
+            <small class="error" ng-show="inputForm.name.$error.minlength">最小2为</small>
+
+            <small class="error" ng-show="inputForm.name.$error.maxlength">最大4为</small>
+
+        </div>
+        <button type="submit">sub</button>
+    </form>
+    <form name="inputForm2" novalidate>
+        <input type="text" ng-model="name2" name="name" ng-minlength="2" ng-maxlength="4"
+               required/>
+
+        <div class="ng-invalid " ng-message="inputFrom2.name.$error" ng-messages-multiple>
+            <small class="error" ng-message="required">必填！</small>
+
+            <small class="error" ng-message="minlength">最小2为</small>
+
+            <small class="error" ng-message="maxlength" >最大4为</small>
+
+        </div>
+        <button type="submit">sub</button>
+    </form>
+</div>
+</body>
+</html>
+<script>
+    var app = angular.module("myApp", ['ngMessages']);
+    app.filter('upheard', function () {
+        return function (input) {
+            if (input) {
+                return input[0].toUpperCase() + input.slice(1);
+            }
+        }
+    });
+    app.controller("myController", function ($scope) {
+    });
+</script>
