@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../angular.js"></script>
+</head>
+<body>
+<div ng-controller="myController">
+    <my-directive></my-directive>
+</div>
+</body>
+</html>
+<script>
+    var app = angular.module("myApp", []);
+    app.config(function(myTestProvider){
+        myTestProvider.setQQ(3123123);
+    });
+    app.controller("myController", function ($scope, githubService, myTest) {
+        githubService.events('ShrimpTang').success(function (data, status, headers, config) {
+            console.info(data);
+            console.info(status);
+            console.info(headers);
+            console.info(config);
+        });
+        console.info(myTest.qq);
+    });
+
+    var service = angular.module("myApp.service", []);
+    app.service('githubService', function ($http) {
+        var githubUrl = 'https://api.github.com';
+        var runUserRequest = function (username, path) {
+            return $http.jsonp(githubUrl + "/users/" + username + "/" + path + "?callback=JSON_CALLBACK");
+        }
+        return {
+            events: function (username) {
+                return runUserRequest(username, 'events');
+            }
+        }
+    });
+
+
+    app.provider('myTest', function () {
+        var qq = 4039303;
+        this.setQQ = function (q) {
+            qq = q;
+        }
+        this.$get = function () {
+            return {
+                'qq': qq
+            }
+        }
+    });
+</script>

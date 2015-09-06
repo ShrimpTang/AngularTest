@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../angular.js"></script>
+    <script src="../../angular-route.js"></script>
+</head>
+<body>
+<div ng-controller="myController">
+    <div ng-view></div>
+</div>
+</body>
+</html>
+<script>
+    var app = angular.module("myApp", ['ngRoute']);
+    app.config("$routeProvider", function ($routeProvider) {
+        $routeProvider.when("/",{
+        })
+    });
+    app.controller("myController", function ($scope) {
+    });
+</script>
