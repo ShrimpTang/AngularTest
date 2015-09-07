@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="content">
+    <!--<ul>-->
+
+        <!--<li>111</li>-->
+        <!--<li>222-->
+            <!--<ul>-->
+                <!--<li>aaa</li>-->
+                <!--<li>bbb</li>-->
+                <!--<li>ccc</li>-->
+                <!--<li>ddd</li>-->
+            <!--</ul>-->
+        <!--</li>-->
+    <!--</ul>-->
+
+</div>
+</body>
+<script src="jquery-1.6.2.min.js"></script>
+<script>
+
+    $(function () {
+
+        var hrtml = createContent('-1',json);
+        $("#content").html(hrtml);
+        function createContent(parentids, json) {
+            var ht = '<ul>';
+            for (var i = 0; i < json.length; i++) {
+                var obj = json[i];
+                if (obj.parentids == parentids) {
+                    ht += '<li>' + obj.name;
+                    if (obj.parentids == -1) {
+                        ht += createContent(obj.id, json);
+                    } else {
+                        ht += createContent(obj.parentids + "," + obj.id, json);
+                    }
+                    ht += '</li>';
+                }
+            }
+
+            ht += '</ul>';
+            return ht;
+
+        }
+    });
+
+    var json = [{
+        id: 0,
+        name: '全部产品',
+        parentids: '-1',
+        order: '2010'
+    }, {
+        id: 1,
+        name: '未分类',
+        parentids: '0',
+        order: '2011'
+    }, {
+        id: 2,
+        name: '秤',
+        parentids: '0',
+        order: '2012'
+    }, {
+        id: 2,
+        name: '手提秤',
+        parentids: '0,2',
+        order: '2013'
+    }, {
+        id: 3,
+        name: '厨房秤',
+        parentids: '0,2',
+        order: '2014'
+    }, {
+        id: 4,
+        name: '体重秤',
+        parentids: '0,2',
+        order: '2014'
+    }, {
+        id: 5,
+        name: '衣服',
+        parentids: '0',
+        order: '2015'
+    }, {
+        id: 6,
+        name: '上衣',
+        parentids: '0,5',
+        order: '2016'
+    }, {
+        id: 7,
+        name: '针织衫',
+        parentids: '0,5,6',
+        order: '2017'
+    }, {
+        id: 8,
+        name: 'T血',
+        parentids: '0,5,6',
+        order: '2018'
+    }, {
+        id: 9,
+        name: '内衣',
+        parentids: '0,5,6',
+        order: '2019'
+    }, {
+        id: 10,
+        name: '球衣',
+        parentids: '0,5,6,9',
+        order: '2020'
+    }, {
+        id: 11,
+        name: '背心',
+        parentids: '0,5,6,9',
+        order: '2021'
+    }, {
+        id: 12,
+        name: '裤子',
+        parentids: '0,5',
+        order: '2020'
+    }, {
+        id: 13,
+        name: '鞋子',
+        parentids: '0,5',
+        order: '2021'
+    }, {
+        id: 14,
+        name: '软件',
+        parentids: '0',
+        order: '2022'
+    }];
+
+</script>
+</html>
