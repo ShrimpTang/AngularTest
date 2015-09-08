@@ -8,15 +8,15 @@
 <div id="content">
     <!--<ul>-->
 
-        <!--<li>111</li>-->
-        <!--<li>222-->
-            <!--<ul>-->
-                <!--<li>aaa</li>-->
-                <!--<li>bbb</li>-->
-                <!--<li>ccc</li>-->
-                <!--<li>ddd</li>-->
-            <!--</ul>-->
-        <!--</li>-->
+    <!--<li>111</li>-->
+    <!--<li>222-->
+    <!--<ul>-->
+    <!--<li>aaa</li>-->
+    <!--<li>bbb</li>-->
+    <!--<li>ccc</li>-->
+    <!--<li>ddd</li>-->
+    <!--</ul>-->
+    <!--</li>-->
     <!--</ul>-->
 
 </div>
@@ -26,7 +26,7 @@
 
     $(function () {
 
-        var hrtml = createContent('-1',json);
+        var hrtml = createContent('-1', json);
         $("#content").html(hrtml);
         function createContent(parentids, json) {
             var ht = '<ul>';
@@ -112,7 +112,7 @@
     }, {
         id: 11,
         name: '背心',
-        parentids: '0,5,6,9',
+        parentids: '0,5,6,9rrrrrrrrrrrrrrrrrrr',
         order: '2021'
     }, {
         id: 12,
@@ -130,6 +130,39 @@
         parentids: '0',
         order: '2022'
     }];
+/*
+    $(function() {
+        $.post(contextPath + "/product_ajaxGetProductTypeJsonList.yk",function(data){
+            data = $.parseJSON(data);
+            var html = createContent('-1', data);
+            $("#productTypeDiv").append(html);
+        });
+        function createContent(parentids, json) {
+            var ht = $('
+                    <ul>');
+            if (parentids.split(",").length>1) {
+                ht.hide();
+            }
+            for (var i = 0; i < json.length; i++) {
+                var obj = json[i];
+                if (obj.parentids == parentids) {
+                    var li = $('
+                            <li>'+obj.name+'</li>
+                            ')
+                    ht.append(li);
+                    if (obj.parentids == -1) {
+                        li.append( createContent(obj.ID, json));
+                    } else {
+                        li.append(createContent(obj.parentids + "," + obj.ID, json));
+                    }
+                }
+            }
+            return ht;
+        }
+    });
+*/
 
 </script>
 </html>
+
+
