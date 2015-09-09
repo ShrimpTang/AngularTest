@@ -47,55 +47,24 @@
 <div id="productTypeDiv">
 
 </div>
+<input type="button" id="editProductType" value="编辑分类">
 </body>
 <script src="jquery-1.6.2.min.js"></script>
 <script>
-    var productTypeOp={
-        aa:function(){
+    var productTypeOp = {
+        add: function (id, pid) {
             console.info('ccc');
+        },
+        del: function (id) {
+
         }
     }
     $(function () {
-        function createContent(parentids, json) {
-            var ht = $('<ul>');
-            if (parentids.split(",").length > 1) {
-                // ht.hide();
-            }
-            for (var i = 0; i < json.length; i++) {
-                var obj = json[i];
-                if (obj.parentids == parentids) {
-                    var li = $('<li id="li_' + obj.ID + '"></li>');
-                    var name = $('<a data="' + obj.name + '" parentids="' + obj.parentids + '" id="a_' + obj.ID + '">' + obj.name + '</a>');
-                    name.click(function () {
-                        if ($("#productTypeDiv").data('isEdit')) {
 
-                        } else {
-                            $("#productTypeDiv a").css('background-color', 'white');
-                            $(this).css('background-color', '#ADD6ED');
-
-                        }
-                    });
-                    var em = $('<em id="em_' + obj.ID + '" class="off"></em>');
-                    var newName = $('<input  type="text" name="cptList['+i+'].name" value="' + obj.name + '" >').hide();
-                    var oldName = $('<input type="hidden" name="cptList['+i+'].oldName" value="' + obj.name + '" >');
-                    var $id = $('<input type="hidden" name="cptList['+i+'].id" value="' + obj.ID + '" >');
-                    var $parentids = $('<input type="hidden" style="width:100px" name="cptList['+i+'].parentids" value="' + obj.parentids + '" >');
-                    var $addBtn = $('<input type="button" value="添加" onclick="productTypeOp.aa()">');
-                    li.append(em).append(name).append(oldName).append($id).append($parentids).append(newName).append($addBtn);
-                    ht.append(li);
-                    if (obj.parentids == -1) {
-                        li.append(createContent(obj.ID, json));
-                    } else {
-                        li.append(createContent(obj.parentids + "," + obj.ID, json));
-                    }
-                }
-            }
-            return ht;
-        }
         //data = $.parseJSON(data);
         var html = createContent('-1', data);
         $("#productTypeDiv").append(html);
-        $("#productTypeDiv").data('isEdit', false);
+        $("#editProductType").data('isEdit', false);
         $("#productTypeDiv li").each(function () {
             if ($("#" + this.id + " ~ li").length == 0) {
                 $(this).css("background-color", "white");
@@ -115,9 +84,24 @@
                 }
             });
         });
+
+        $("#editProductType").click(function () {
+            if ($("#editProductType").data('isEdit')) {//是编辑的时候点击就保存
+                hideVisibleBtn();
+                // TODO ajax重新加载
+                $("#editProductType").data('isEdit', false);
+                $("#editProductType").val('编辑分类');
+
+            } else {//不是编辑的时候点击变成编辑状态
+                $("#editProductType").data('isEdit', true);
+                $("#editProductType").val('编辑完成');
+            }
+        });
+
+
         var sptbClickCount = 0;
-        $('#searchProductType').keyup(function(e){
-            if(e.keyCode==13){
+        $('#searchProductType').keyup(function (e) {
+            if (e.keyCode == 13) {
                 $("#searchProductTypeBtn").click();
             }
         });
@@ -142,9 +126,9 @@
                         var pids = $(this).attr('parentids').split(',');
 
                         for (var i = 0; i < pids.length; i++) {
-                            if(pids[i]!=''){
-                                $("#li_"+pids[i]).parent().show();
-                                $("#li_"+pids[i]+" > em").addClass('off');
+                            if (pids[i] != '') {
+                                $("#li_" + pids[i]).parent().show();
+                                $("#li_" + pids[i] + " > em").addClass('off');
 
                             }
                         }
@@ -153,6 +137,61 @@
                 }
             });
         });
+        function hideVisibleBtn() {
+            $("#productTypeDiv input[id^='addbtn_']:visible").hide();
+            $("#productTypeDiv input[id^='delbtn_']:visible").hide();
+        }
+
+        function createContent(parentids, json) {
+            var ht = $('<ul>');
+            if (parentids.split(",").length > 1) {
+                // ht.hide();
+            }
+            for (var i = 0; i < json.length; i++) {
+                var obj = json[i];
+                if (obj.parentids == parentids) {
+                    var li = $('<li id="li_' + obj.ID + '"></li>');
+                    var name = $('<a data="' + obj.name + '" parentids="' + obj.parentids + '" id="a_' + obj.ID + '">' + obj.name + '</a>');
+
+                    var em = $('<em id="em_' + obj.ID + '" class="off"></em>');
+                    var newName = $('<input  type="text" id="newname_' + obj.ID + '" name="cptList[' + i + '].name" value="' + obj.name + '" >').hide();
+                    var oldName = $('<input type="hidden" name="cptList[' + i + '].oldName" value="' + obj.name + '" >');
+                    var $id = $('<input type="hidden" name="cptList[' + i + '].id" value="' + obj.ID + '" >');
+                    var $parentids = $('<input type="hidden" style="width:100px" name="cptList[' + i + '].parentids" value="' + obj.parentids + '" >');
+                    var $addBtn = $('<input type="button" style="display:none" value="添加" id="addbtn_' + obj.ID + '" onclick="productTypeOp.add(\'' + obj.ID + '\',\'' + obj.parentids + '\')">');
+                    var $delBtn = $('<input type="button" style="display:none" value="删除" id="delbtn_' + obj.ID + '" onclick="productTypeOp.del(\'' + obj.ID + '\')">');
+                    if (obj.order == 1 || obj.order == 0) {
+                        $delBtn.attr('disabled', 'disabled');
+                    }
+                    name.click(function () {
+                        if ($("#editProductType").data('isEdit')) {
+                            var id = this.id.split("_")[1];
+                            hideVisibleBtn();
+                            $("#newname_" + id + ",#addbtn_" + id + ",#delbtn_" + id).show();
+                            $("#newname_" + id).focus();
+                            $(this).hide();
+                        } else {
+                            $("#productTypeDiv a").css('background-color', 'white');
+                            $(this).css('background-color', '#ADD6ED');
+
+                        }
+                    });
+                    newName.blur(function () {
+                        var id = this.id.split("_")[1];
+                        $("#a_" + id).text($(this).val()).show();
+                        $(this).hide();
+                    });
+                    li.append(em).append(name).append(oldName).append($id).append($parentids).append(newName).append($addBtn).append($delBtn);
+                    ht.append(li);
+                    if (obj.parentids == -1) {
+                        li.append(createContent(obj.ID, json));
+                    } else {
+                        li.append(createContent(obj.parentids + "," + obj.ID, json));
+                    }
+                }
+            }
+            return ht;
+        }
     });
 
 
@@ -160,12 +199,12 @@
         ID: '0',
         name: '全部产品',
         parentids: '-1',
-        order: '2010'
+        order: '0'
     }, {
         ID: '1',
         name: '未分类',
         parentids: '0',
-        order: '2011'
+        order: '1'
     }, {
         ID: '2',
         name: '秤',
