@@ -344,8 +344,8 @@ var changeProductOp = {
         return ht;
     }, createContentLi: function (obj) {
         var li = $('<li id="change_li_' + obj.ID + '" ></li>');
-        var name = $('<label data="' + obj.name + '" for="ck_' + obj.ID + '"  parentids="' + obj.parentids + '" id="label_' + obj.ID + '">' + obj.name + '</a>');
-        var checkbox = $('<input type="checkbox" name="changeProductType" id="ck_' + obj.ID + '">');
+        var name = $('<label data="' + obj.name + '" for="ck_' + obj.ID + '"  id="label_' + obj.ID + '">' + obj.name + '</label>');
+        var checkbox = $('<input  type="checkbox"  parentids="' + obj.parentids + '" name="changeProductType" id="ck_' + obj.ID + '">');
         var em = $('<em id="change_em_' + obj.ID + '" class="off"></em>');
         var $id = $('<input type="hidden" value="' + obj.ID + '" >');
         var $parentids = $('<input type="hidden" style="width:100px" value="' + obj.parentids + '" >');
@@ -392,14 +392,17 @@ var changeProductOp = {
         $("#changeProductTypeDiv input[type='checkbox']").each(function () {
             $(this).change(function () {
                 var id = this.id.split('_')[1];
-                var all = $('#change_li_'+id).find('input[type="checkbox"]');
-                var isparent = all.length>2?true:false;
                 if($(this).is(":checked")){
-                    $('#change_li_'+id).find('input[type="checkbox"]').attr('checked','checked');
-                    console.info('true');
-                }else{
-                    console.info('false');
+                    $('#changeProductTypeDiv input[type="checkbox"][parentids^="'+$(this).attr('parentids')+','+id+'"]').attr('checked','checked');
                 }
+                //var all = $('#change_li_'+id).find('input[type="checkbox"]');
+                //var isparent = all.length>2?true:false;
+                //if($(this).is(":checked")){
+                //    $('#change_li_'+id).find('input[type="checkbox"]').attr('checked','checked');
+                //    console.info('true');
+                //}else{
+                //    console.info('false');
+                //}
             });
         });
     },
