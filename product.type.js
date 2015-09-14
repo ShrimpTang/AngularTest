@@ -14,7 +14,7 @@ $(function() {
             $("#productTypeDiv a.select").removeClass('select');
             $("#editProductType").data('isEdit', true);
             $("#editProductType").val('编辑完成');
-            $("#pTypeli_0").myTip({text:'提示：点击分类可编辑、添加、删除分类！',isTop:true,closeBtnIsRight:false});
+            $("#pTypeli_-1").myTip({text:'提示：点击分类可编辑、添加、删除分类！',isTop:true,closeBtnIsRight:false});
         }
     });
     var sptbClickCount = 0;
@@ -117,11 +117,11 @@ var productTypeOp = {
         var val = productTypeOp.getValue();
         $("#productTypeDiv a").removeClass('select');
         if (val == '') {
-            $("#pTypea_0").addClass('select');
+            $("#pTypea_-1").addClass('select');
         }else{
             if($("#pTypea_"+val).length==0){
                 productTypeOp.setValue("");
-                $("#pTypea_0").addClass('select');
+                $("#pTypea_-1").addClass('select');
             }else{
                 $("#pTypea_"+val).addClass('select');
                 productTypeOp.showAllParent($("#pTypea_"+val).attr('parentids').split(','),$("#pTypea_"+val));
@@ -164,10 +164,10 @@ var productTypeOp = {
     add : function(id,pid) {
         $("#sibProductType,#chiProductType").removeAttr('disabled');
         $('#productTypeAddError').hide();
-        if (id=="0") {
+        if (id=="-1") {
             $("#sibProductType").attr('disabled','disabled');
             $("#chiProductType").attr('checked','checked');
-        }else if(id=="1"){
+        }else if(id=="-2"){
             $("#sibProductType").attr('checked','checked');
             $("#chiProductType").attr('disabled','disabled');
         }else if(pid.split(',').length==3){
@@ -276,7 +276,7 @@ var productTypeOp = {
                 }
             });
         });
-        $("#pTypeem_0").addClass('off');
+        $("#pTypeem_-1").addClass('off');
     },getShowName:function(name){
         if (name.length>20) {
             name = name.substring(0,20)+"...";
