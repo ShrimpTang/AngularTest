@@ -14,7 +14,7 @@ $(function() {
             $("#productTypeDiv a.select").removeClass('select');
             $("#editProductType").data('isEdit', true);
             $("#editProductType").val('编辑完成');
-            $("#li_"+tenantID_server+"-0").myTip({text:'提示：点击分类可编辑、添加、删除分类！',isTop:true,closeBtnIsRight:false});
+            $("#pTypeli_0").myTip({text:'提示：点击分类可编辑、添加、删除分类！',isTop:true,closeBtnIsRight:false});
         }
     });
     var sptbClickCount = 0;
@@ -117,14 +117,14 @@ var productTypeOp = {
         var val = productTypeOp.getValue();
         $("#productTypeDiv a").removeClass('select');
         if (val == '') {
-            $("#a_"+tenantID_server+"-0").addClass('select');
+            $("#pTypea_0").addClass('select');
         }else{
-            if($("#a_"+val).length==0){
+            if($("#pTypea_"+val).length==0){
                 productTypeOp.setValue("");
-                $("#a_"+tenantID_server+"-0").addClass('select');
+                $("#pTypea_0").addClass('select');
             }else{
-                $("#a_"+val).addClass('select');
-                productTypeOp.showAllParent($("#a_"+val).attr('parentids').split(','),$("#a_"+val));
+                $("#pTypea_"+val).addClass('select');
+                productTypeOp.showAllParent($("#pTypea_"+val).attr('parentids').split(','),$("#pTypea_"+val));
             }
         }
     },
@@ -164,10 +164,10 @@ var productTypeOp = {
     add : function(id,pid) {
         $("#sibProductType,#chiProductType").removeAttr('disabled');
         $('#productTypeAddError').hide();
-        if (id==(tenantID_server+"-0")) {
+        if (id=="0") {
             $("#sibProductType").attr('disabled','disabled');
             $("#chiProductType").attr('checked','checked');
-        }else if(id==(tenantID_server+"-1")){
+        }else if(id=="1"){
             $("#sibProductType").attr('checked','checked');
             $("#chiProductType").attr('disabled','disabled');
         }else if(pid.split(',').length==3){
@@ -196,10 +196,10 @@ var productTypeOp = {
             }else{
                 $('#productTypeAddError').hide();
                 var newLi = productTypeOp.createContentLi({ID: tempid, name: productTypeName, parentids: pid, createTime: tempCreateTime,tempID:tempid});
-                if ($("#li_" + prodcutTypeSelectID + " > ul").length > 0) {
-                    $("#li_" + prodcutTypeSelectID + " > ul").append(newLi);
+                if ($("#pTypeli_" + prodcutTypeSelectID + " > ul").length > 0) {
+                    $("#pTypeli_" + prodcutTypeSelectID + " > ul").append(newLi);
                 } else {
-                    $("#li_" + prodcutTypeSelectID).append(($('<ul>').append(newLi)));
+                    $("#pTypeli_" + prodcutTypeSelectID).append(($('<ul>').append(newLi)));
                 }
                 productTypeOp.bindEvent();
                 $("#dialog-form-newProductType").dialog('close');
@@ -211,7 +211,7 @@ var productTypeOp = {
             }else{
                 $('#productTypeAddError').hide();
                 var newLi = productTypeOp.createContentLi({ID: tempid, name: productTypeName, parentids: prodcutTypeSelectPID, createTime: tempCreateTime,tempID:tempid});
-                $("#li_" + prodcutTypeSelectID).parent().append(newLi);
+                $("#pTypeli_" + prodcutTypeSelectID).parent().append(newLi);
                 productTypeOp.bindEvent();
                 $("#dialog-form-newProductType").dialog('close');
             }
@@ -227,7 +227,7 @@ var productTypeOp = {
         jConfirm('删除分类后，分类下产品将会被移至“'+productTypeOp.unsort+'”下。\r\n确定删除吗？', '提示框', function(flag) {
             if (flag) {
                 if (id.startsWith('temp-')) {
-                    $("#li_"+id).remove();
+                    $("#pTypeli_"+id).remove();
                     productTypeOp.bindEvent();
                 }else{
                     $.post(contextPath + "/product_ajaxDeleteProductType.yk?id="+id, function(data) {
@@ -238,7 +238,7 @@ var productTypeOp = {
                             jAlert('参数错误。','提示');
                             return;
                         }else if (data==1) {
-                            $("#li_"+id).remove();
+                            $("#pTypeli_"+id).remove();
                         }
                         productTypeOp.bindEvent();
                     });
@@ -248,8 +248,8 @@ var productTypeOp = {
         });
     },
     hideVisibleBtn: function () {
-        $("#productTypeDiv input[id^='addbtn_']:visible").hide();
-        $("#productTypeDiv input[id^='delbtn_']:visible").hide();
+        $("#productTypeDiv input[id^='pTypeaddbtn_']:visible").hide();
+        $("#productTypeDiv input[id^='pTypedelbtn_']:visible").hide();
     }, bindEvent: function () {
         productTypeOp.productTypeSize= $("#productTypeDiv li").length;
         $("#productTypeDiv li").each(function () {
@@ -276,7 +276,7 @@ var productTypeOp = {
                 }
             });
         });
-        $("#em_"+tenantID_server+"-0").addClass('off');
+        $("#pTypeem_0").addClass('off');
     },getShowName:function(name){
         if (name.length>20) {
             name = name.substring(0,20)+"...";
@@ -285,17 +285,17 @@ var productTypeOp = {
     },
     createContentLi: function (obj) {
         productTypeOp.tempindex++;
-        var li = $('<li id="li_' + obj.ID + '" ></li>');
+        var li = $('<li id="pTypeli_' + obj.ID + '" ></li>');
         var showName = productTypeOp.getShowName(obj.name);
-        var name = $('<a title="'+obj.name+'"  data="' + obj.name + '" parentids="' + obj.parentids + '" id="a_' + obj.ID + '">' + showName + '</a>');
-        var em = $('<em id="em_' + obj.ID + '" class=""></em>');
+        var name = $('<a title="'+obj.name+'"  data="' + obj.name + '" parentids="' + obj.parentids + '" id="pTypea_' + obj.ID + '">' + showName + '</a>');
+        var em = $('<em id="pTypeem_' + obj.ID + '" class=""></em>');
         var newName = $('<input  type="text" id="newname_' + obj.ID + '" name="cptList[' + productTypeOp.tempindex + '].name" value="' + obj.name + '" parentids="' + obj.parentids + '">').hide();
         var oldName = $('<input type="hidden" name="cptList[' + productTypeOp.tempindex + '].oldName" value="' + obj.name + '" >');
         var $id = $('<input type="hidden" name="cptList[' + productTypeOp.tempindex + '].ID" value="' + obj.ID + '" >');
         var $createTime = $('<input type="hidden" name="cptList[' + productTypeOp.tempindex + '].createTime" value="' + obj.createTime + '" >');
         var $parentids = $('<input type="hidden" style="width:100px" name="cptList[' + productTypeOp.tempindex + '].parentids" value="' + obj.parentids + '" >');
-        var $addBtn = $('<input type="button" style="display:none" value="添加" id="addbtn_' + obj.ID + '" onclick="productTypeOp.add(\'' + obj.ID + '\',\'' + obj.parentids + '\')">');
-        var $delBtn = $('<input type="button" style="display:none" value="删除" id="delbtn_' + obj.ID + '" onclick="productTypeOp.del(\'' + obj.ID + '\')">');
+        var $addBtn = $('<input type="button" style="display:none" value="添加" id="pTypeaddbtn_' + obj.ID + '" onclick="productTypeOp.add(\'' + obj.ID + '\',\'' + obj.parentids + '\')">');
+        var $delBtn = $('<input type="button" style="display:none" value="删除" id="pTypedelbtn_' + obj.ID + '" onclick="productTypeOp.del(\'' + obj.ID + '\')">');
         if (obj.createTime == 1 || obj.createTime == 0) {
             $delBtn.attr('disabled', 'disabled');
         }
@@ -305,7 +305,7 @@ var productTypeOp = {
                 productTypeOp.hideVisibleBtn();
                 $("#newname_" + id).show();
                 if (productTypeOp.productTypeSize<=1000) {
-                    $("#addbtn_" + id + ",#delbtn_" + id).show();
+                    $("#pTypeaddbtn_" + id + ",#pTypedelbtn_" + id).show();
                 }
                 $("#newname_" + id).focus();
                 $(this).hide();
@@ -320,7 +320,7 @@ var productTypeOp = {
             var id = this.id.split("_")[1];
             var inputVal = $(this).val();
             if ($.trim($(this).val())=='') {
-                $(this).val($("#a_" + id).attr('data'));
+                $(this).val($("#pTypea_" + id).attr('data'));
             }
 //            var num  = 0;
 //            $('#productTypeDiv input[name$=".name"][parentids="'+$(this).attr('parentids')+'"]').each(function(i,o){
@@ -329,11 +329,11 @@ var productTypeOp = {
 //				}
 //            });
             if (productTypeOp.findRepeatNum($(this).attr('parentids'), inputVal)>1) {//有重复的
-                $(this).val($("#a_" + id).attr('data'));
+                $(this).val($("#pTypea_" + id).attr('data'));
                 $(this).myTip({text:'提示：同级不允许重名！',isTop:true,closeBtnIsRight:false,id:"tip"+id});
             }
 
-            $("#a_" + id).text(productTypeOp.getShowName($(this).val())).attr('title',$(this).val()).show();
+            $("#pTypea_" + id).text(productTypeOp.getShowName($(this).val())).attr('title',$(this).val()).show();
             $(this).hide();
         });
         var $div = $('<div style="display:inline-flex">').append(em).append(name).append(oldName).append($id).append($createTime).append($parentids).append(newName).append($addBtn).append($delBtn);
@@ -358,7 +358,7 @@ var productTypeOp = {
             return $("#productTypeDiv a.select").attr('id').split("_")[1];
         }
         var val = getValue('productType-cache-'+suserid);
-//    	if ($('#a_'+val).length==0) {
+//    	if ($('#pTypea_'+val).length==0) {
 //			return '';
 //		}
         //return val==(tenantID_server+"-0")?'':val;
@@ -366,8 +366,8 @@ var productTypeOp = {
     },showAllParent:function(pids,o){
         for (var i = 0; i < pids.length; i++) {
             if (pids[i] != '') {
-                $("#li_" + pids[i]).parent().show();
-                $("#em_" + pids[i]).addClass('off');
+                $("#pTypeli_" + pids[i]).parent().show();
+                $("#pTypeem_" + pids[i]).addClass('off');
             }
         }
         o.parent().parent().parent().show();
