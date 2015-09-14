@@ -1,3 +1,16 @@
+/**
+ *
+
+ UPDATE `t_news` SET `imgsrc`=( case
+ when   locate('dd,',imgsrc)>0 then  replace(imgsrc,'dd,','')
+ when  locate(',dd',imgsrc)>0 then replace(imgsrc,',dd','')
+ when  locate('dd',imgsrc)>0 then  replace(imgsrc,'dd','')
+ end
+ )
+
+
+
+ */
 $(function() {
     productTypeOp.loadProductType();
     $("#productTypeForm").ajaxForm(function(data){
