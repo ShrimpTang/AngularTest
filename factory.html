@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="angular.js"></script>
+
+</head>
+<body ng-app="myApp">
+<div ng-controller="c1">
+    <input type="text" ng-model="data.name"/>{{data.name}}
+    <button ng-click="a()">c</button>
+    <div ng-controller="c2">
+        <button ng-click="c2click()">c2</button>
+        <div ng-controller="c3">
+            <div ng-controller="c4">
+
+            </div>
+        </div>
+
+    </div>
+
+    <div ng-controller="c5"></div>
+</div>
+
+<script>
+    var app = angular.module("myApp", []);
+    app.factory("Data", function () {
+        return {
+            "name": "qq"
+        }
+    });
+    app.controller('c1', function ($scope,Data) {
+        console.info(Data.name);
+        $scope.data = Data;
+        $scope.a= function () {
+            console.info(Data.name);
+        }
+        $scope.$on('to-child', function (d,c) {
+            console.info('1111111');
+        });
+        $scope.$on('to-p', function (d,c) {
+            console.info(c);
+        });
+    });
+    app.controller('c2', function ($scope) {
+        $scope.c2click = function () {
+            $scope.$broadcast("to-child","hahah",event);
+            $scope.$emit("to-p","pppppppppp")
+        }
+    })
+
+    app.controller('c3', function ($scope) {
+      $scope.$on('to-child', function (d,c,event) {
+          console.info(d);
+          console.info(event);
+      });
+        $scope.$on('to-p', function (d,c) {
+            console.info(c);
+        });
+    });
+
+    app.controller('c4', function ($scope) {
+        $scope.$on('to-child', function (d,c) {
+            console.info('44444444')
+            console.info(d);
+            console.info(c);
+        });
+        $scope.$on('to-p', function (d,c) {
+            console.info(c);
+        });
+    });
+
+    app.controller('c5', function ($scope) {
+        $scope.$on('to-child', function (d,c) {
+            console.info('55555')
+            console.info(d);
+            console.info(c);
+        });
+        $scope.$on('to-p', function (d,c) {
+            console.info(c);
+        });
+    });
+</script>
+</body>
+</html>

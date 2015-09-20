@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="angular.js"></script>
+</head>
+<body ng-app="myApp">
+<div ng-controller="left" style="width: 400px;height: 500px;border: 1px solid deepskyblue;float: left">
+    <div ng-repeat="item in items">
+        {{item.title}} <span>{{item.type}}</span>
+        <button ng-click="edit($index)">编辑</button>
+    </div>
+</div>
+<div ng-show="item" ng-controller="right"
+     style="width: 600px;height: 500px;border: 1px solid deepskyblue;float: left;margin-left: 20px">
+    <table>
+        <tr>
+            <td>标题</td>
+            <td><input ng-model="item.title" type="text"/></td>
+        </tr>
+        <tr>
+            <td>类型</td>
+            <td><select ng-model="item.type">
+                <option value="时间">时间</option>
+                <option value="数字">数字</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td>长度</td>
+            <td><input ng-model="item.length" type="text"/></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.run(function ($rootScope) {
+        $rootScope.$on('p-editItem', function (e, item) {
+            $rootScope.$broadcast('editItem', item);
+        });
+    });
+    app.controller('left', function ($scope) {
+        $scope.items = [{
+            title: '标题',
+            type: '数字',
+            length: 3
+        },{
+            title: '标题c',
+            type: '时间',
+            length: 44
+        }];
+        $scope.edit = function (index) {
+            var editIteem = $scope.items[index];
+            $scope.$emit('p-editItem', editIteem);
+        }
+    });
+
+    app.controller('right', function ($scope) {
+        $scope.item = null;
+        $scope.$on('editItem', function (e, item) {
+            $scope.item = item;
+        });
+    });
+
+
+</script>

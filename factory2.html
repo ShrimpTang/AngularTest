@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="angular.js"></script>
+
+</head>
+<body ng-app="myApp">
+<div ng-controller="c1">
+    <input type="text" ng-model="data.name"/>{{data.name}}
+    <button ng-click="cl()">cl</button>
+</div>
+<div ng-controller="c2">
+    <input type="text" ng-model="data.name"/>{{data.name}}
+</div>
+<script>
+    var app = angular.module("myApp", []);
+    app.run(function ($rootScope) {
+        $rootScope.$on('p', function (e, data) {
+            data.name = '123'
+        })
+    });
+
+    app.controller('c1', function ($scope) {
+        $scope.data = {};
+        $scope.cl = function () {
+            $scope.$emit('p', $scope.data);
+        }
+    });
+
+    app.controller('c2', function ($scope) {
+        $scope.data = {};
+    });
+</script>
+</body>
+</html>
